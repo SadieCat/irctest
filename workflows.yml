@@ -386,6 +386,23 @@ software:
             cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local/ -DPROGRAM_NAME=anope -DUSE_PCH=ON -GNinja ..
             ninja install
 
+    atheme:
+        name: Atheme
+        repository: atheme/atheme
+        separate_build_job: true
+        path: atheme
+        refs:
+            stable: "v7.2.12"
+            release: null
+            devel: "release/7.2"
+            devel_release: null
+        build_script: |
+            sudo apt install gettext --no-install-recommends
+            cd $GITHUB_WORKSPACE/atheme/
+            ./configure --prefix=$HOME/.local/
+            make
+            make install
+
     dlk:
         name: Dlk
         repository: DalekIRC/Dalek-Services
@@ -461,7 +478,7 @@ tests:
         software: [bahamut]
 
     bahamut-atheme:
-        software: [bahamut]
+        software: [bahamut, atheme]
 
     bahamut-anope:
         software: [bahamut, anope-2-0] # Anope 2.1.15 removes support for Bahamut
@@ -482,7 +499,7 @@ tests:
         software: [inspircd]
 
     inspircd-atheme:
-        software: [inspircd]
+        software: [inspircd, atheme]
         exclude_versions: [devel] # Atheme does not support Insp4 yet, so it fails to connect
 
     inspircd-anope:
@@ -492,7 +509,7 @@ tests:
         software: [ngircd]
 
     ngircd-atheme:
-        software: [ngircd]
+        software: [ngircd, atheme]
 
     ngircd-anope:
         software: [ngircd, anope]
@@ -523,7 +540,7 @@ tests:
         software: [unrealircd]
 
     unrealircd-atheme:
-        software: [unrealircd]
+        software: [unrealircd, atheme]
 
     unrealircd-anope:
         software: [unrealircd, anope]
